@@ -2,19 +2,42 @@
   "name": "mapeditor-desktop",
   "version": "0.1.0",
   "private": true,
+  "main": "electron/build/main.js",
+  "homepage": "./",
+  "build": {
+    "extends": null,
+    "appId": "app.mapeditor.mapeditor",
+    "productName": "Mapeditor",
+    "win": {
+      "target": "nsis"
+    },
+    "files": [
+      "build/**/*",
+      "electron/build/**/*",
+      "node_modules/**/*"
+    ],
+    "directories": {
+      "buildResources": "assets"
+    }
+  },
   "dependencies": {
-    "@testing-library/jest-dom": "^4.2.4",
-    "@testing-library/react": "^9.4.0",
-    "@testing-library/user-event": "^7.2.1",
+    "@rescripts/cli": "0.0.13",
+    "@rescripts/rescript-env": "0.0.11",
+    "electron-is-dev": "^1.1.0",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
     "react-scripts": "3.3.0"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "dev": "concurrently \"npm run-script electron-compile-watch\" \"cross-env BROWSER=none npm start\" \"cross-env NODE_ENV=dev nodemon --exec \"\"wait-on http://localhost:3000 && electron electron/build/main.js\"\"",
+    "start": "rescripts start",
+    "build": "rescripts build",
+    "test": "rescripts test",
+    "postinstall": "electron-builder install-app-deps",
+    "preelectron-pack": "concurrently \"npm run-script build\" \"npm run-script electron-compile\" ",
+    "electron-pack": "electron-builder",
+    "electron-compile": "tsc ./electron/src/main.ts --outDir ./electron/build",
+    "electron-compile-watch": "tsc ./electron/src/main.ts --outDir ./electron/build -w"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -30,5 +53,23 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "^4.2.4",
+    "@testing-library/react": "^9.4.0",
+    "@testing-library/user-event": "^7.2.1",
+    "@types/electron": "^1.6.10",
+    "@types/jest": "^24.9.1",
+    "@types/node": "^12.12.6",
+    "@types/react": "^16.9.19",
+    "@types/react-dom": "^16.9.5",
+    "concurrently": "^5.1.0",
+    "copyfiles": "^2.2.0",
+    "cross-env": "^7.0.0",
+    "electron": "^7.1.10",
+    "electron-builder": "^22.3.2",
+    "nodemon": "^2.0.2",
+    "typescript": "^3.7.5",
+    "wait-on": "^4.0.0"
   }
 }
