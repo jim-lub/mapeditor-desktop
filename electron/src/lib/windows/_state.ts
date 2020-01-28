@@ -55,13 +55,15 @@ const removeWindowRef = ({ uid }: { uid: string }) => {
   log.windowRefs( getWindows() );
 }
 
+const getWindow = (uid: string) => state[uid];
 const getWindows = () => state;
 // setWindowProps
 // clearWindowProps
 // listenToWindowPropChanges
 
 export {
+  getWindow,
   getWindows,
-  addWindowRef as addBrowserWindowRef,
-  removeWindowRef as removeBrowserWindowRef
+  addWindowRef,
+  removeWindowRef
 }

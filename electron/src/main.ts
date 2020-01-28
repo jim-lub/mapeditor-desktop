@@ -1,7 +1,7 @@
 import { app, BrowserWindow } from 'electron';
 import { default as browserWindowListener } from './listeners/browserWindow';
 import { log } from './lib/_dev/cli-logger';
-import { createWindow } from './controller';
+import { createWindow } from './lib/windows';
 
 let mainWindow: any;
 
@@ -14,24 +14,24 @@ app.on('ready', () => {
     size: 1,
   }
 
-  createWindow(props);
+  createWindow({ width: 800, height: 600, props: { test: 500 } });
 
   log.app('success', 'Launcher active.');
 
-  browserWindowListener(mainWindow);
+  // browserWindowListener(mainWindow);
 
   log.app('info', 'Listening to `browserEvents`.');
 });
 
 app.on('window-all-closed', () => {
-  log.app('warn', 'Application closed..')
   if (process.platform !== 'darwin') {
     app.quit();
   }
+  log.app('error', 'Application closed..')
 });
 
 app.on('activate', () => {
   if (mainWindow === null) {
-    createWindow();
+    createWindow({ width: 800, height: 600, props: { test: 500 } });
   }
 });

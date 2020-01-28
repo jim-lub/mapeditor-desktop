@@ -3,7 +3,7 @@ import * as path from 'path';
 import * as isDev from 'electron-is-dev';
 import { v4 as uuid } from 'uuid';
 
-import { getWindows, addBrowserWindowRef, removeBrowserWindowRef } from './lib/window-manager/state';
+import { getWindows, addWindowRef, removeWindowRef } from './lib/windows/_state';
 
 interface Windows {
   windowName: string,
@@ -32,7 +32,7 @@ const createWindow = (props?: any) => {
 
   window.webContents.openDevTools();
 
-  addBrowserWindowRef({
+  addWindowRef({
     uid,
     name: 'editor',
     ref: window,
@@ -40,7 +40,7 @@ const createWindow = (props?: any) => {
   });
 
   // add onclose listener
-  window.on('closed', () => removeBrowserWindowRef({ uid }));
+  window.on('closed', () => removeWindowRef({ uid }));
 }
 
 export default controller;
