@@ -23,11 +23,13 @@
   "dependencies": {
     "@rescripts/cli": "0.0.13",
     "@rescripts/rescript-env": "0.0.11",
+    "@types/uuid": "^3.4.6",
     "cli-color": "^2.0.0",
     "electron-is-dev": "^1.1.0",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
-    "react-scripts": "3.3.0"
+    "react-scripts": "3.3.0",
+    "uuid": "^3.4.0"
   },
   "scripts": {
     "dev": "concurrently \"npm run-script electron-compile-watch\" \"cross-env BROWSER=none npm start\" \"cross-env NODE_ENV=dev nodemon --exec \"\"wait-on http://localhost:3000 && electron electron/build/main.js\"\"",

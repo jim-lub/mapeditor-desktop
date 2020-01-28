@@ -2,6 +2,8 @@ import React from 'react';
 import { ipcRenderer } from 'electron';
 import { channels } from 'shared/constants/channels';
 
+import './app.css';
+
 const App = () => {
   const handleClick = (e: any) => {
     switch (e.target.id) {
@@ -17,6 +19,7 @@ const App = () => {
 
   return (
     <div>
+      <div className="dragHandle"></div>
       <h1>MapEditor</h1>
       <button id="open" onClick={handleClick}>Open</button>
       <button id="close" onClick={handleClick}>Close</button>

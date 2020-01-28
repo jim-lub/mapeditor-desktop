@@ -1,6 +1,7 @@
 import { ipcMain } from 'electron';
 import { channels } from '../../../src/shared/constants/channels';
-import { logSimpleAction } from '../lib/_dev/cli-logger';
+import { logMessageWithOrigin } from '../lib/_dev/cli-logger';
+import { createWindow, getState } from '../controller';
 
 interface BrowserWindowProps {
   uid: string
@@ -8,30 +9,33 @@ interface BrowserWindowProps {
 
 const browserWindow = (mainWindow: any) => {
   ipcMain.on(channels.browserWindow.open, (e, { uid }: BrowserWindowProps) => {
-    logSimpleAction(['eventListener', 'browserWindow'], 'open');
+    createWindow();
+    logMessageWithOrigin(['eventListener', 'browserWindow'], 'open');
   });
 
   ipcMain.on(channels.browserWindow.close, (e, { uid }: BrowserWindowProps) => {
-    logSimpleAction(['eventListener', 'browserWindow'], 'close');
+    logMessageWithOrigin(['eventListener', 'browserWindow'], 'close');
   });
 
   ipcMain.on(channels.browserWindow.refresh, (e, { uid }: BrowserWindowProps) => {
-    logSimpleAction(['eventListener', 'browserWindow'], 'refresh');
+    const state = getState();
+    console.log(state);
+    logMessageWithOrigin(['eventListener', 'browserWindow'], 'refresh');
   });
 
   ipcMain.on(channels.browserWindow.minimize, (e, { uid }: BrowserWindowProps) => {
     mainWindow.minimize();
-    logSimpleAction(['eventListener', 'browserWindow'], 'minimize');
+    logMessageWithOrigin(['eventListener', 'browserWindow'], 'minimize');
   });
 
   ipcMain.on(channels.browserWindow.maximize, (e, { uid }: BrowserWindowProps) => {
     mainWindow.maximize();
-    logSimpleAction(['eventListener', 'browserWindow'], 'maximize');
+    logMessageWithOrigin(['eventListener', 'browserWindow'], 'maximize');
   });
 
   ipcMain.on(channels.browserWindow.unmaximize, (e, { uid }: BrowserWindowProps) => {
     mainWindow.unmaximize();
-    logSimpleAction(['eventListener', 'browserWindow'], 'unmaximize');
+    logMessageWithOrigin(['eventListener', 'browserWindow'], 'unmaximize');
   });
 }
 
