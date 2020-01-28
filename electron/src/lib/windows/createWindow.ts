@@ -6,12 +6,13 @@ import { addWindowRef, removeWindowRef } from './_state';
 import { loadURL } from './helpers';
 
 interface WindowProps {
+  type?: string,
   width?: number,
   height?: number,
   props?: {}
 }
 
-const createWindow = ({ width = 800, height = 600, props = {} }: WindowProps) => {
+const createWindow = ({ type = '', width = 800, height = 600, props = {} }: WindowProps) => {
   const uid = uuid();
 
   const window = new BrowserWindow({
@@ -26,7 +27,7 @@ const createWindow = ({ width = 800, height = 600, props = {} }: WindowProps) =>
     }
   });
 
-  loadURL(window, 'launcher', { uid, name: 'editor' });
+  loadURL(window, type, [{ key: 'uid', value: uid }]);
   (isDev) ? window.webContents.openDevTools() : null;
 
   addWindowRef({

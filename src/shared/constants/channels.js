@@ -8,6 +8,9 @@ const window = {
   minimize       : "window:minimize",
   maximize       : "window:maximize",
   unmaximize     : "window:unmaximize",
+
+  getOne         : "window:getOne",
+  getAll         : "window:getAll"
 }
 
 module.exports = {

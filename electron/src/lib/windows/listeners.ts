@@ -1,7 +1,7 @@
 import { ipcMain } from 'electron';
 
 import { channels } from '../../../../src/shared/constants/channels';
-import { closeWindow, createWindow, minimizeWindow, maximizeWindow } from './';
+import { closeWindow, createWindow, minimizeWindow, maximizeWindow, getWindow, getWindows } from './';
 import { log } from '../_dev/cli-logger';
 
 // window.CLOSE
@@ -38,4 +38,11 @@ ipcMain.on(channels.window.minimize, (e, { uid, payload }: { uid: string, payloa
   minimizeWindow({
     ...payload
   });
+});
+
+// window.GET ALL
+ipcMain.on(channels.window.getAll, (e, { uid, payload }: { uid: string, payload: { uid: string }}) => {
+  log.event(['ipcMain', 'listener', 'window'], 'GET ALL', uid);
+
+  getWindow(uid).ref.webContents.send(channels.window.getAll, Object.keys(getWindows()));
 });

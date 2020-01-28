@@ -1,5 +1,4 @@
 import { app, BrowserWindow } from 'electron';
-import { default as browserWindowListener } from './listeners/browserWindow';
 import { log } from './lib/_dev/cli-logger';
 import { createWindow } from './lib/windows';
 
@@ -14,11 +13,9 @@ app.on('ready', () => {
     size: 1,
   }
 
-  createWindow({ width: 800, height: 600, props: { test: 500 } });
+  createWindow({ type: 'launcher', width: 1200, height: 800, props: { test: 500 } });
 
   log.app('success', 'Launcher active.');
-
-  // browserWindowListener(mainWindow);
 
   log.app('info', 'Listening to `browserEvents`.');
 });
