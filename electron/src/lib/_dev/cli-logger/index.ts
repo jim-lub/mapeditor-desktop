@@ -1,4 +1,4 @@
 export {
   log,
-  logSimpleAction
+  logMessageWithOrigin
 } from './logger';

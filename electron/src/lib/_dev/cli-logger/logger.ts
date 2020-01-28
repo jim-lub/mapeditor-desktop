@@ -15,7 +15,7 @@ const log = (type: string, message: string) => {
   console.log(output);
 }
 
-const logSimpleAction = (origin: string[], message: string) => {
+const logMessageWithOrigin = (origin: string[], message: string) => {
   if (!isDev) return;
 
   const styledOrigin = origin.map((str, index) => {
@@ -29,5 +29,5 @@ const logSimpleAction = (origin: string[], message: string) => {
 
 export {
   log,
-  logSimpleAction
+  logMessageWithOrigin
 }
