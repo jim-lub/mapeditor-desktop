@@ -3,7 +3,7 @@ import * as path from 'path';
 import * as isDev from 'electron-is-dev';
 import { v4 as uuid } from 'uuid';
 
-import { getState, addBrowserWindowRef, removeBrowserWindowRef } from './lib/window-manager/state';
+import { getWindows, addBrowserWindowRef, removeBrowserWindowRef } from './lib/window-manager/state';
 
 interface Windows {
   windowName: string,
@@ -16,7 +16,7 @@ const controller = () => {
 
 }
 
-const createWindow = () => {
+const createWindow = (props?: any) => {
   const uid = uuid();
 
   const window = new BrowserWindow({
@@ -25,7 +25,7 @@ const createWindow = () => {
     webPreferences: {
       nodeIntegration: true
     },
-    // frame: false
+    // frame: (frame) ? false : true
   });
 
   window.loadURL(isDev ? 'http://localhost:3000' : `file://${path.join(__dirname, '../../build/index.html')}`);
@@ -35,7 +35,8 @@ const createWindow = () => {
   addBrowserWindowRef({
     uid,
     name: 'editor',
-    ref: window
+    ref: window,
+    props: (props) ? props : {}
   });
 
   // add onclose listener
@@ -45,5 +46,5 @@ const createWindow = () => {
 export default controller;
 export {
   createWindow,
-  getState
+  getWindows
 }

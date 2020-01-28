@@ -1,7 +1,7 @@
 import { ipcMain } from 'electron';
 import { channels } from '../../../src/shared/constants/channels';
-import { logMessageWithOrigin } from '../lib/_dev/cli-logger';
-import { createWindow, getState } from '../controller';
+import { log } from '../lib/_dev/cli-logger';
+import { createWindow, getWindows } from '../controller';
 
 interface BrowserWindowProps {
   uid: string
@@ -10,32 +10,30 @@ interface BrowserWindowProps {
 const browserWindow = (mainWindow: any) => {
   ipcMain.on(channels.browserWindow.open, (e, { uid }: BrowserWindowProps) => {
     createWindow();
-    logMessageWithOrigin(['eventListener', 'browserWindow'], 'open');
+    log.event(['eventListener', 'window', 'browserWindow'], 'open', 'editor');
   });
 
   ipcMain.on(channels.browserWindow.close, (e, { uid }: BrowserWindowProps) => {
-    logMessageWithOrigin(['eventListener', 'browserWindow'], 'close');
+    log.event(['eventListener', 'window', 'browserWindow'], 'close', 'editor');
   });
 
   ipcMain.on(channels.browserWindow.refresh, (e, { uid }: BrowserWindowProps) => {
-    const state = getState();
-    console.log(state);
-    logMessageWithOrigin(['eventListener', 'browserWindow'], 'refresh');
+    log.event(['eventListener', 'browserWindow'], 'refresh');
   });
 
   ipcMain.on(channels.browserWindow.minimize, (e, { uid }: BrowserWindowProps) => {
     mainWindow.minimize();
-    logMessageWithOrigin(['eventListener', 'browserWindow'], 'minimize');
+    log.event(['eventListener', 'browserWindow'], 'minimize');
   });
 
   ipcMain.on(channels.browserWindow.maximize, (e, { uid }: BrowserWindowProps) => {
     mainWindow.maximize();
-    logMessageWithOrigin(['eventListener', 'browserWindow'], 'maximize');
+    log.event(['eventListener', 'browserWindow'], 'maximize');
   });
 
   ipcMain.on(channels.browserWindow.unmaximize, (e, { uid }: BrowserWindowProps) => {
     mainWindow.unmaximize();
-    logMessageWithOrigin(['eventListener', 'browserWindow'], 'unmaximize');
+    log.event(['eventListener', 'browserWindow'], 'unmaximize');
   });
 }
 

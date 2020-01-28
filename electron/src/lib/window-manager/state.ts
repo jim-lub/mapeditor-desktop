@@ -1,27 +1,46 @@
-interface Windows {
-  name: string,
-  browserWindow?: Electron.BrowserWindow
-}
+import { log } from '../_dev/cli-logger';
 
 interface WindowRef {
-  uid: string,
   name: string,
-  ref: Electron.BrowserWindow
+  ref: Electron.BrowserWindow,
+  __props: {
+    allowRemoteAccess?: boolean,
+    layout?: {
+      x: number,
+      y: number,
+      w: number,
+      h: number
+    }
+  },
+  props: {}
 }
 
-let state: { [uid: string]: Windows } = {};
+interface WindowProps {
+  uid: string,
+  name: string,
+  ref: Electron.BrowserWindow,
+  props: {},
+}
 
-const addBrowserWindowRef = ({ uid, name, ref }: WindowRef) => {
+let state: { [uid: string]: WindowRef } = {};
+
+const addWindowRef = ({ uid, name, ref, props }: WindowProps) => {
   state = {
     ...state,
     [uid]: {
       name,
-      browserWindow: ref
+      ref,
+      __props: {
+        layout: { x: 10, y: 10, w: 600, h: 600 }
+      },
+      props
     }
   }
+
+  log.windowRefs( getWindows() );
 }
 
-const removeBrowserWindowRef = ({ uid }: { uid: string }) => {
+const removeWindowRef = ({ uid }: { uid: string }) => {
   state = Object.entries(state).reduce((obj, [window_uid, window_props]) => {
     if (window_uid === uid) return obj;
 
@@ -32,12 +51,17 @@ const removeBrowserWindowRef = ({ uid }: { uid: string }) => {
       }
     }
   }, {});
+
+  log.windowRefs( getWindows() );
 }
 
-const getState = () => state;
+const getWindows = () => state;
+// setWindowProps
+// clearWindowProps
+// listenToWindowPropChanges
 
 export {
-  getState,
-  addBrowserWindowRef,
-  removeBrowserWindowRef
+  getWindows,
+  addWindowRef as addBrowserWindowRef,
+  removeWindowRef as removeBrowserWindowRef
 }

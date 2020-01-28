@@ -1,4 +1,3 @@
-export {
-  log,
-  logMessageWithOrigin
-} from './logger';
+import * as log from './loggers';
+
+export { log };
